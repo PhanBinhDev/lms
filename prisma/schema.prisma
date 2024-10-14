@@ -91,7 +91,6 @@ model MuxData {
 model UserProgress {
   id String @id @default(uuid())
   userId String
-  progress Float
 
   chaperId String
   chapter Chapter @relation(fields: [chaperId], references: [id], onDelete: Cascade)
@@ -122,7 +121,6 @@ model Purchase {
 model StripeCustomer {
   id String @id @default(uuid())
   userId String @unique
-  customerId String @unique
   stripeCustomerId String @unique
 
   createdAt DateTime @default(now())

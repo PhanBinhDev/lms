@@ -6,6 +6,8 @@ import { VideoPlayer } from './_components/video-player'
 import { CourseEnrollButton } from './_components/course-enroll-button'
 import { Separator } from '@radix-ui/react-separator'
 import { Preview } from '@/components/preview'
+import { File } from 'lucide-react'
+import { CourseProgressButton } from './_components/course-progress-button'
 
 const ChapterIdPage = async ({
   params
@@ -68,28 +70,36 @@ const ChapterIdPage = async ({
           />
         </div>
         <div>
-          <div className='p-4 flex flex-col lg:flex-row items-center justify-between'>
-            <h2 className='text-2xl font-semibold mb-2'>{chapter.title}</h2>
-            {purchase ? (
-              <div>{/* TODO: Course ProgressButton */}</div>
-            ) : (
-              <CourseEnrollButton courseId={courseId} price={course.price!} />
-            )}
+          <div className='p-4'>
+            <div className='p-4 flex flex-col lg:flex-row items-center justify-between border rounded-md'>
+              <h2 className='text-2xl font-semibold mb-2 lg:mb-0'>
+                {chapter.title}
+              </h2>
+              {purchase ? (
+                <CourseProgressButton
+                  chapterId={chapterId}
+                  courseId={courseId}
+                  nextChapterId={nextChapter?.id}
+                  isCompleted={!!userProgress?.isCompleted}
+                />
+              ) : (
+                <CourseEnrollButton courseId={courseId} price={course.price!} />
+              )}
+            </div>
           </div>
-          <Separator />
-          <div>
+          <div className='border-t'>
             <Preview value={chapter.description!} />
           </div>
           {!!attachments.length && (
             <>
-              <Separator />
-              <div className='p-4'>
+              <div className='p-4 space-y-2 border-t'>
                 {attachments.map((attachment) => (
                   <a
                     className='flex items-center p-3 w-full bg-sky-200 border text-sky-700 rounded-md hover:underline'
                     href={attachment.url}
                     target='_blank'
                     key={attachment.id}>
+                    <File className='size-4 mr-2' />
                     <p>{attachment.name}</p>
                   </a>
                 ))}

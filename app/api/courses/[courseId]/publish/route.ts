@@ -35,11 +35,6 @@ export async function PATCH(
       })
     }
 
-    // if (false) {
-    //   return new NextResponse('Chapter details are required', {
-    //     status: 400
-    //   })
-    // }
     const hasPublishedChapter = course.chapters.some(
       (chapter) => chapter.isPublished
     )

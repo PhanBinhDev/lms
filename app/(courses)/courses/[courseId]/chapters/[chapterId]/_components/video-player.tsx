@@ -6,6 +6,9 @@ import { useState } from 'react'
 import { toast } from 'react-hot-toast'
 import { Loader2, Lock } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { useRouter } from 'next/navigation'
+import { useConfettiStore } from '@/app/hooks/use-confetti-store'
+
 interface VideoPlayerProps {
   chapterId: string
   title: string
@@ -26,7 +29,34 @@ export const VideoPlayer = ({
   completedOnEnd
 }: VideoPlayerProps) => {
   const [isReady, setIsReady] = useState(false)
+  const router = useRouter()
+  const confetti = useConfettiStore()
 
+  const onEnded = async () => {
+    try {
+      if (completedOnEnd) {
+        await axios.put(
+          `/api/courses/${courseId}/chapters/${chapterId}/progress`,
+          {
+            isCompleted: true
+          }
+        )
+
+        if (!nextChapterId) {
+          confetti.onOpen()
+        }
+
+        toast.success('Progress updated!')
+        router.refresh()
+
+        if (nextChapterId) {
+          router.push(`/courses/${courseId}/chapters/${nextChapterId}`)
+        }
+      }
+    } catch (error) {
+      toast.error('Something went wrong')
+    }
+  }
   return (
     <div className='aspect-video relative'>
       {!isReady && !isLocked ? (
@@ -45,9 +75,7 @@ export const VideoPlayer = ({
           playbackId={playbackId}
           className={cn('rounded-md', !isReady && 'hidden')}
           onCanPlay={() => setIsReady(true)}
-          onEnded={(e) => {
-            console.log({ e })
-          }}
+          onEnded={onEnded}
           autoPlay
         />
       )}

@@ -3,7 +3,8 @@ import { clerkMiddleware, createRouteMatcher } from '@clerk/nextjs/server'
 const isPublishRoute = createRouteMatcher([
   '/sign-in(.*)',
   '/sign-up(.*)',
-  '/api/uploadthing'
+  '/api/uploadthing',
+  '/api/webhook(.*)'
 ])
 
 export default clerkMiddleware((auth, request) => {
