@@ -12,7 +12,6 @@ import { isTeacher } from '@/lib/teacher'
 const NavBarRoutes = () => {
   const { userId } = useAuth()
   const pathname = usePathname()
-  const router = useRouter()
 
   const isTeacherPage = pathname?.startsWith('/teacher')
   const isCoursePage = pathname?.startsWith('/courses')

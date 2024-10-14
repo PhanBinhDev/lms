@@ -3,6 +3,10 @@ import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
 
+// Analytics and Speed Analytics For Vercel Analytics
+import { Analytics } from '@vercel/analytics/react'
+import { SpeedInsights } from '@vercel/speed-insights/next'
+
 import ToastProvider from '@/components/providers/toaster-provider'
 import ConfettiProvider from '@/components/providers/confetti-provider'
 
@@ -38,6 +42,8 @@ export default function RootLayout({
           <ConfettiProvider />
           <ToastProvider />
           {children}
+          <Analytics />
+          <SpeedInsights />
         </body>
       </html>
     </ClerkProvider>
