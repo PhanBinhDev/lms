@@ -32,7 +32,7 @@ const NavBarRoutes = () => {
               Exit
             </Button>
           </Link>
-        ) : isTeacher(userId) ? (
+        ) : isTeacher(userId!) ? (
           <Link href='/teacher/courses'>
             <Button variant={'ghost'} size='sm'>
               Teacher mode
